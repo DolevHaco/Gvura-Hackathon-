@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="the_project">
+    <h1 style="color:white">{{ current_project.project_name }}</h1>
+    <h3 style="color:white">{{ category_dict[current_project.id] }}</h3>
+    <br>
+    <p><b>Project manager:</b> {{ current_project.manager }}</p>
+    <p> {{ current_project.description }}</p>
+    <br><br>
+    <div>
+        <h4 style="color:#a6ddf9"><b>Looking For:</b></h4>
+        <p>some positions...</p>
+    </div>
+</div>
+<div class="team_div">
+    {% if dict_of_partners %}
+        <div>
+            <h4 style="padding:30px 0 0 60px;">OUR TEAM</h4>
+            {% for partner in dict_of_partners %}
+                <div id="partners_div" style="margin: 0 0 0 40px;">
+                    <p id="partners_p">{{
+                        dict_of_partners[partner] }}:<br>
+                        {{partner}}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <div id="join_button">
+        {% if current_user.is_authenticated and already_in %}
+            <a href="{{ url_for('view_project', project_id=current_project.id, user_join_num=-1) }}">
+                    Leave
+            </a>
+            {% elif current_user.is_authenticated and not project_full %}
+            <a href="{{ url_for('view_project', project_id=current_project.id, user_join_num=1) }}">
+                    Join
+            </a>
+            {% elif project_full %}
+            <a class="" href="#">
+                    Full
+            </a>
+            {% else %}
+            <a href="{{ url_for('login') }}">
+                    Sign In
+            </a>
+        {% endif %}
+    </div>
+</div>
+<!--<div id="join_button">-->
+<!--    {% if current_user.is_authenticated and already_in %}-->
+<!--        <a href="{{ url_for('view_project', project_id=current_project.id, user_join_num=-1) }}">-->
+<!--                Leave-->
+<!--        </a>-->
+<!--        {% elif current_user.is_authenticated and not project_full %}-->
+<!--        <a href="{{ url_for('view_project', project_id=current_project.id, user_join_num=1) }}">-->
+<!--                Join-->
+<!--        </a>-->
+<!--        {% elif project_full %}-->
+<!--        <a class="" href="#">-->
+<!--                Full-->
+<!--        </a>-->
+<!--        {% else %}-->
+<!--        <a href="{{ url_for('login') }}">-->
+<!--                Sign In-->
+<!--        </a>-->
+<!--    {% endif %}-->
+<!--</div>-->
+
+<!-- TODO: ADD users that are part of the team -->
+<!-- TODO: ADD "join" button -->
+
+{% endblock content %}
